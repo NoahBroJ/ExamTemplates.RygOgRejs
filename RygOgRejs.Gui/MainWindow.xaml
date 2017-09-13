@@ -150,7 +150,10 @@
                           Header="Liste"
                           Margin="5">
                     <UserControl x:Name="userControlCentre"
-                                 Margin="5" />
+                                 Margin="5" >
+
+                        <Label Content="Label" HorizontalAlignment="Left" Height="32" Margin="4,3,0,0" VerticalAlignment="Top" Width="104"/>
+                    </UserControl>
                 </GroupBox>
                 <GridSplitter Grid.Column="3"
                               HorizontalAlignment="Stretch" />

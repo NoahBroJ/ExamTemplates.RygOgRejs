@@ -3,23 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using RygOgRejs.Entities;
 
 namespace RygOgRejs.Services
 {
     class WeatherApiHandler
     {
-        private static readonly string apiKey = "32e7d04d86999102feb4439b0dc97b63";
+        static HttpClientHandler handler = new HttpClientHandler();
+        static HttpClient client;
+        private static string apiKey = "32e7d04d86999102feb4439b0dc97b63";
 
-        public static async string GetTemperature(string city)
+        public static async Task<Temperature> GetTemperature(string city)
         {
-            string uri = $"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}";
-            WebRequest request = WebRequest.Create(uri);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            if (response.StatusCode == HttpStatusCode.OK)
+            Temperature temp = null;
+            using (client = new HttpClient(handler, false))
             {
-                string jsonString = response.Content.Re
+                string uri = $"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}";
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync(uri);
+                    if (response.IsSuccessStatusCode)
+                        temp = await response.Content.ReadAsAsync<Temperature>();
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
+            return temp;
         }
     }
 }
