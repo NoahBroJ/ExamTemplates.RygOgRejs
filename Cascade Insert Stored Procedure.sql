@@ -32,32 +32,37 @@
 
 -- Part A:
 CREATE PROCEDURE CascadeInsert	-- Name of the procedure. 
-	@Firstname VARCHAR(30),		-- a parameter to be inserted in Employees table.
-	@Lastname VARCHAR(30),		-- a parameter to be inserted in Employees table.
-	@Title VARCHAR(30),			-- a parameter to be inserted in Employees table.
-	@Initials VARCHAR(10),		-- a parameter to be inserted in Employees table.
-	@Email VARCHAR(30),			-- a parameter to be inserted in ContactInfos table.
-	@PhoneNumber VARCHAR(11),	-- a parameter to be inserted in ContactInfos table.
-	@StreetName VARCHAR(50),	-- a parameter to be inserted in Addresses table.
-	@HouseNumber VARCHAR(10),	-- a parameter to be inserted in Addresses table.
-	@City VARCHAR(50),			-- a parameter to be inserted in Addresses table.
-	@Zip INT					-- a parameter to be inserted in Addresses table.
+	@Destination NVARCHAR(40),	-- a parameter to be inserted in Journeys table.
+	@DepartureTime DATETIME2,	-- a parameter to be inserted in Journeys table.
+	@Adults INT,				-- a parameter to be inserted in Journeys table.
+	@Children INT,				-- a parameter to be inserted in Journeys table.
+	@IsFirstClass BIT,			-- a parameter to be inserted in Journeys table.
+	@LuggageAmount DECIMAL,		-- a parameter to be inserted in Journeys table.
+	@FirstName NVARCHAR(20),	-- a parameter to be inserted in Payers table.
+	@LastName NVARCHAR(20),		-- a parameter to be inserted in Payers table.
+	@Ssn NVARCHAR(11),			-- a parameter to be inserted in Payers table.
+	@Amount DECIMAL				-- a parameter to be inserted in Transactions table.
 AS								-- just leave this
 
 -- Part B:
-DECLARE @tempIdTable TABLE (Id INT)		-- just leave this.
-DECLARE @employeeId INT	-- just rename @employeeId to the name of your first table id column.
+DECLARE @tempIdTable TABLE (JId INT, PId INT)		-- just leave this.
+DECLARE @JourneyId INT	-- just rename @employeeId to the name of your first table id column.
+DECLARE @PayerId INT
 
 -- Part C:
-INSERT INTO Employees (FirstName, LastName,Title,Initials)	-- change this accordingly.
-	OUTPUT inserted.EmployeeID INTO @tempIdTable(Id)	-- change to inserted.whateverId
-	VALUES(@Firstname, @Lastname, @Title, @Initials)
+INSERT INTO Journeys (Destination, DepartureTime, Adults, Children, IsFirstClass, LuggageAmount)	-- change this accordingly.
+	OUTPUT inserted.JourneyId INTO @tempIdTable(JId)	-- change to inserted.whateverId
+	VALUES(@Destination, @DepartureTime, @Adults, @Children, @IsFirstClass, @LuggageAmount)
 
 -- Part D:
-SELECT @employeeid = FIRST_VALUE(Id) OVER(PARTITION BY Id ORDER BY Id) FROM @tempIdTable --nochange
+SELECT @JourneyId = FIRST_VALUE(JId) OVER(PARTITION BY JId ORDER BY JId) FROM @tempIdTable --nochange
 
 -- Part E:
-INSERT INTO ContactInfos (Email, PhoneNumber, EmployeeID)
-	VALUES(@Email, @PhoneNumber, @employeeId)
-INSERT INTO Addresses (StreetName, HouseNumber, City, Zip, EmployeeID)
-	VALUES(@StreetName, @HouseNumber,@City, @Zip, @employeeId)
+INSERT INTO Payers (FirstName, LastName, Ssn, JourneyId)
+	OUTPUT inserted.PayerId INTO @tempIdTable(PId)
+	VALUES(@FirstName, @LastName, @Ssn, @JourneyId)
+
+SELECT @PayerId = FIRST_VALUE(PId) OVER(PARTITION BY PId ORDER BY PId) FROM @tempIdTable --nochange
+
+INSERT INTO Transactions (Amount, PayerId, JourneyId)
+	VALUES(@Amount, @PayerId, @JourneyId)

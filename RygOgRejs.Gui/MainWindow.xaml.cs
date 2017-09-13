@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RygOgRejs.DataAccess;
+using RygOgRejs.Entities;
+using RygOgRejs.Services;
 
 namespace RygOgRejs.Gui
 {
