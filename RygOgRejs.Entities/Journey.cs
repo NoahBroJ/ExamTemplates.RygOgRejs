@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace RygOgRejs.Entities
 {
-    public class Journey : IPersistable
+    public class Journey
     {
-        private int id;
         private int adults;
         private int children;
         private PriceDetails currentPriceDetails;
@@ -17,15 +16,7 @@ namespace RygOgRejs.Entities
         private bool isFirstClass;
         private double luggageAmount;
 
-        public int Id { get => id;
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                id = value;
-            }
-        }
-        protected int Adults { get => adults;
+        public int Adults { get => adults;
             set
             {
                 if (value < 0)
@@ -33,7 +24,7 @@ namespace RygOgRejs.Entities
                 adults = value;
             }
         }
-        protected int Children { get => children;
+        public int Children { get => children;
             set
             {
                 if (value < 0)
@@ -41,11 +32,11 @@ namespace RygOgRejs.Entities
                 children = value;
             }
         }
-        protected PriceDetails CurrentPriceDetails { get => currentPriceDetails; set => currentPriceDetails = value; }
-        protected DateTime DepartureDate { get => departureDate; set => departureDate = value; }
-        protected Destination Destination { get => destination; set => destination = value; }
-        protected bool IsFirstClass { get => isFirstClass; set => isFirstClass = value; }
-        protected double LuggageAmount { get => luggageAmount;
+        public PriceDetails CurrentPriceDetails { get => currentPriceDetails; set => currentPriceDetails = value; }
+        public DateTime DepartureDate { get => departureDate; set => departureDate = value; }
+        public Destination Destination { get => destination; set => destination = value; }
+        public bool IsFirstClass { get => isFirstClass; set => isFirstClass = value; }
+        public double LuggageAmount { get => luggageAmount;
             set
             {
                 if (value < 0)
@@ -151,18 +142,6 @@ namespace RygOgRejs.Entities
             Adults = adults;
             Children = children;
             LuggageAmount = luggageAmount;
-            UpdateCurrentPriceDetails();
-        }
-        public Journey(Destination destination, DateTime departureDate, bool isFirstClass,
-            int adults, int children, double luggageAmount, int id)
-        {
-            Destination = destination;
-            DepartureDate = departureDate;
-            IsFirstClass = isFirstClass;
-            Adults = adults;
-            Children = children;
-            LuggageAmount = luggageAmount;
-            Id = id;
             UpdateCurrentPriceDetails();
         }
         public void RemoveLuggage(double amount)

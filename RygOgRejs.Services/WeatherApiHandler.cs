@@ -9,7 +9,7 @@ using RygOgRejs.Entities;
 
 namespace RygOgRejs.Services
 {
-    class WeatherApiHandler
+    public class WeatherApiHandler
     {
         static HttpClientHandler handler = new HttpClientHandler();
         static HttpClient client;

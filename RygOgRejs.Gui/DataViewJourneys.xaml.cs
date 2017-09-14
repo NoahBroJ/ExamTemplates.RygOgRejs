@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RygOgRejs.DataAccess;
 
 namespace RygOgRejs.Gui
 {
@@ -20,10 +21,11 @@ namespace RygOgRejs.Gui
     /// </summary>
     public partial class DataViewJourneys: UserControl
     {
-        public DataViewJourneys(List<TestEntity> testEntities)
+        DatabaseHandler dbHandler = new DatabaseHandler("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RygOgRejs.DB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+        public DataViewJourneys()
         {
             InitializeComponent();
-            dataGridJourneys.ItemsSource = testEntities;
+            dataGridJourneys.ItemsSource = dbHandler.GetAllFromTable("dbo.Journeys");
         }
 
         private void TextBoxFilterJourneys_TextChanged(object sender, TextChangedEventArgs e)

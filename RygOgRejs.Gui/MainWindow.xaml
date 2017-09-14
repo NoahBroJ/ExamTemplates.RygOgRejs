@@ -57,7 +57,10 @@
                                     Click="ButtonJourneys_Click" />
                             <Button x:Name="buttonTransactions"
                                     Content="Transaktioner"
-                                    Height="35" />
+                                    Height="35" Click="buttonTransactions_Click" />
+                            <Button x:Name="buttonNewJourney"
+                                    Content="Ny Rejse"
+                                    Height="35" Click="buttonNewJourney_Click" />
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Grid.Row="1"
@@ -145,14 +148,19 @@
                 </Grid>
                 <GridSplitter Grid.Column="1"
                               HorizontalAlignment="Stretch" />
+
+                <Label Content="Filtrer på betaler:" HorizontalAlignment="Left" Height="26" Margin="19.2,29,0,0" VerticalAlignment="Top" Width="104" Grid.Column="2"/>
+                <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="20" Margin="128.2,32,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="200"/>
+
                 <GroupBox x:Name="groupBoxCentre"
                           Grid.Column="2"
                           Header="Liste"
                           Margin="5">
+
                     <UserControl x:Name="userControlCentre"
                                  Margin="5" >
+                        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="335" Margin="0,37,0,0" VerticalAlignment="Top" Width="352" SelectionChanged="dataGrid_SelectionChanged"/>
 
-                        <Label Content="Label" HorizontalAlignment="Left" Height="32" Margin="4,3,0,0" VerticalAlignment="Top" Width="104"/>
                     </UserControl>
                 </GroupBox>
                 <GridSplitter Grid.Column="3"
@@ -161,8 +169,22 @@
                           Grid.Column="4"
                           Header="Data"
                           Margin="5">
-                    <UserControl x:Name="userControlRight"
-                                 Margin="5" />
+                    <Grid HorizontalAlignment="Left" Height="362" Margin="10,19,0,0" VerticalAlignment="Top" Width="263">
+                        <StackPanel x:Name="stackJourneys" Visibility="Visible" HorizontalAlignment="Left" Height="342" Margin="10,10,0,0" VerticalAlignment="Top" Width="243">
+                            <ComboBox x:Name="cmbDestination" Margin="20,10">
+                                <ComboBoxItem>Billund</ComboBoxItem>
+                                <ComboBoxItem>Copenhagen</ComboBoxItem>
+                                <ComboBoxItem>PalmaDeMallorca</ComboBoxItem>
+                            </ComboBox>
+                            <DatePicker x:Name="dtpDeparture" Margin="20,10"/>
+                            <TextBox x:Name="tbxAdults" Height="26" Margin="20,10"/>
+                            <TextBox x:Name="tbxChildren" Height="26" Margin="20,10"/>
+                            <CheckBox x:Name="cbxFirstClass" Margin="20,10"/>
+                            <TextBox x:Name="tbxLuggage" Height="26" Margin="20,10"/>
+
+                        </StackPanel>
+                    </Grid>
+
                 </GroupBox>
             </Grid>
         </DockPanel>

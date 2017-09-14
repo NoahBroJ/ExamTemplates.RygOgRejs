@@ -6,22 +6,13 @@ using System.Threading.Tasks;
 
 namespace RygOgRejs.Entities
 {
-    public class Payer : IPersistable
+    public class Payer
     {
-        private int id;
         private string firstName;
         private string lastName;
         private string ssn;
-
-        public int Id { get => id;
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                id = value;
-            }
-        }
-        protected string FirstName { get => firstName;
+        
+        public string FirstName { get => firstName;
             set
             {
                 if (String.IsNullOrWhiteSpace(value))
@@ -29,7 +20,7 @@ namespace RygOgRejs.Entities
                 firstName = value;
             }
         }
-        protected string LastName { get => lastName;
+        public string LastName { get => lastName;
             set
             {
                 if (String.IsNullOrWhiteSpace(value))
@@ -37,7 +28,7 @@ namespace RygOgRejs.Entities
                 lastName = value;
             }
         }
-        protected string Ssn { get => ssn;
+        public string Ssn { get => ssn;
             set
             {
                 if (String.IsNullOrWhiteSpace(value))
@@ -48,7 +39,7 @@ namespace RygOgRejs.Entities
                     int.TryParse(strArr[2], out a) && strArr[2].Length == 4 &&
                     value.Length == 11)
                 {
-                    firstName = value;
+                    ssn = value;
                 }
                 else
                     throw new ArgumentException(nameof(value));
@@ -60,13 +51,6 @@ namespace RygOgRejs.Entities
             FirstName = firstName;
             LastName = lastName;
             Ssn = ssn;
-        }
-        public Payer(string firstName, string lastName, string ssn, int id)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Ssn = ssn;
-            Id = id;
         }
     }
 }

@@ -41,7 +41,8 @@ CREATE PROCEDURE CascadeInsert	-- Name of the procedure.
 	@FirstName NVARCHAR(20),	-- a parameter to be inserted in Payers table.
 	@LastName NVARCHAR(20),		-- a parameter to be inserted in Payers table.
 	@Ssn NVARCHAR(11),			-- a parameter to be inserted in Payers table.
-	@Amount DECIMAL				-- a parameter to be inserted in Transactions table.
+	@Amount DECIMAL,			-- a parameter to be inserted in Transactions table.
+	@TimeStamp DATETIME2		-- a parameter to be inserted in Transactions table.
 AS								-- just leave this
 
 -- Part B:
@@ -64,5 +65,5 @@ INSERT INTO Payers (FirstName, LastName, Ssn, JourneyId)
 
 SELECT @PayerId = FIRST_VALUE(PId) OVER(PARTITION BY PId ORDER BY PId) FROM @tempIdTable --nochange
 
-INSERT INTO Transactions (Amount, PayerId, JourneyId)
-	VALUES(@Amount, @PayerId, @JourneyId)
+INSERT INTO Transactions (Amount, TimeStamp, PayerId, JourneyId)
+	VALUES(@Amount, @TimeStamp, @PayerId, @JourneyId)

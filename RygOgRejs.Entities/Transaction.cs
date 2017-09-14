@@ -8,24 +8,22 @@ namespace RygOgRejs.Entities
 {
     public struct Transaction
     {
-        private int id;
         private decimal amount;
         private Journey journey;
         private Payer payer;
         private DateTime timeStamp;
-
-        public int Id { get => id; }
+        
+        public decimal Amount { get => amount; }
         public Journey Journey { get => journey; }
         public Payer Payer { get => payer; }
         public DateTime TimeStamp { get => timeStamp; }
 
-        public Transaction(decimal amount, Journey journey, Payer payer, int id)
+        public Transaction(decimal amount, Journey journey, Payer payer)
         {
             this.journey = journey;
             this.payer = payer;
             this.amount = journey.GetCurrentTotal();
             timeStamp = DateTime.Now;
-            this.id = id;
         }
     }
 }
